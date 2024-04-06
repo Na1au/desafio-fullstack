@@ -1,6 +1,8 @@
 import { createStore } from "vuex";
 import userStore from "./userStore";
+import ClientController from "@/controllers/ClientController";
 
+const cController = new ClientController();
 const store = createStore({
   state: {
     loading: false,
@@ -8,12 +10,20 @@ const store = createStore({
       visible: false,
       route: "",
     },
+    contatoDetail: {
+      visible: false,
+      contato: {}
+    },
     selectedContato: {
       client_name: "",
       client_email: "",
       client_address: "",
       client_phone: "",
     },
+    deleteContato: {
+      visible: false,
+      contato: {}
+    }
   },
   mutations: {
     SET_LOADING(state, payload) {
@@ -25,25 +35,18 @@ const store = createStore({
     },
     SET_SELECTED_CONTATO(state, payload) {
       state.selectedContato = payload;
+    },
+    SET_CONTATO_DETAIL(state, payload) {
+      state.contatoDetail = payload;
+    },
+    SET_DELETE_CONTATO(state, payload) {
+      state.deleteContato = payload;
     }
   },
   actions: {
-    setDialog({ commit }, payload) {
-      commit("SET_DIALOG", {
-        message: payload.message,
-        type: payload.type,
-        isVisible: true,
-        icon: payload.icon,
-      });
-      setTimeout(() => {
-        commit("SET_DIALOG", {
-          message: "",
-          type: "",
-          isVisible: false,
-          icon: "",
-        });
-      }, "3000");
-    },
+    deleteContato({payload}) {
+
+    }
   },
   modules: {
     userModule: userStore,

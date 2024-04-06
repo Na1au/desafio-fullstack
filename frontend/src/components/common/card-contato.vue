@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
-import statusBadge from "@/components/common/status-badge.vue";
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -11,9 +10,14 @@ const props = defineProps({
     required: true,
   }
 });
-const emitContato = () => {
-  emit("functionContato");
-};
+
+function deleteContato() {
+  store.commit("SET_DELETE_CONTATO", {
+    visible: true,
+    contato: props.contato
+  });
+  store.commit("SET_CONTATO_DETAIL", false);
+}
 
 function editContato() {
   store.commit("SET_SELECTED_CONTATO", props.contato)
@@ -22,23 +26,32 @@ function editContato() {
       route: 'editar'
     })
 }
+
+function setDetailsContato() {
+  store.commit('SET_CONTATO_DETAIL',{
+      visible: true,
+      contato: props.contato
+    })
+}
 </script>
 
 <template>
-  <div @click="emitContato" class="card-contato-card-contato">
-    <div class="user-information">
-      <img :src="contato.client_image" class="profile-foto" alt="">
-      <div class="card-contato-information">
-        <p class="subtitle2">{{ contato.client_name }}</p>
+  <div class="card-contato-card-contato">
+    <div @click="setDetailsContato"  class="contato-information">
+      <div class="user-information">
+        <img :src="contato.client_image" class="profile-foto" alt="">
+        <div class="card-contato-information">
+          <p class="subtitle2">{{ contato.client_name }}</p>
+        </div>
       </div>
-    </div>
-    <div class="card-contato-information">
-      <p class="subtitle2">{{ contato.client_email }}</p>
-    </div>
-    <div class="card-contato-information">
-      <p class="subtitle2">{{
-        contato.client_phone
-      }}</p>
+      <div class="card-contato-information">
+        <p class="subtitle2">{{ contato.client_email }}</p>
+      </div>
+      <div class="card-contato-information">
+        <p class="subtitle2">{{
+          contato.client_phone
+        }}</p>
+      </div>
     </div>
     <div class="card-contato-actions">
       <div @click="editContato" class="action-boto"><iconify-icon class="iconify-icon" icon="mdi:edit"></iconify-icon></div>
@@ -49,7 +62,7 @@ function editContato() {
 
 <style scoped>
 .card-contato-card-contato {
-  gap: 10px;
+  gap: 30px;
   width: 100%;
   height: 40%;
   display: flex;
@@ -58,8 +71,14 @@ function editContato() {
   border-radius: 15px;
   flex-direction: row;
   padding: 10px 0;
-  justify-content: space-between;
   background-color: var(--dl-color-gray-white);
+}
+.contato-information {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
 }
 .user-information {
   display: flex;
@@ -106,7 +125,8 @@ function editContato() {
   display: flex;
   flex-direction: row;
   gap: 15px;
-  justify-content: space-between;
+  justify-content: flex-end;
+  width: 5%;
 }
 .action-boto {
   width: 25px;

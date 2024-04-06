@@ -45,4 +45,8 @@ export default class bdController extends BaseController {
   async updateUserPassword(payload) {
     return await confirmPasswordReset(auth, payload.oobCode, payload.password);
   }
+
+  async delete(id) {
+    super.delete('clients', id)
+  }
 }

@@ -1,54 +1,65 @@
 <script setup>
 import InputText from "../components/common/InputText.vue";
 import boto from "@/components/common/boto.vue";
-import CardContato from '../components/common/card-contato.vue';
+import CardContato from "../components/common/card-contato.vue";
 import EditContato from "../components/forms/edit-contato.vue";
+import contatoDetail from "@/components/forms/contato-detail.vue";
+import contatoDelelete from "@/components/forms/contato-delete.vue";
+import spinnerLoading from "@/components/common/spinner-loading.vue";
 import router from "../router/index";
 import { useStore } from "vuex";
 import { onMounted, ref } from "vue";
-import axios from 'axios';
+import axios from "axios";
 
-const contatos = ref([])
+const loading = ref(true);
+const contatos = ref([]);
 const search = ref("");
 
-const store = useStore()
+const store = useStore();
 
-onMounted(async() => {
-  contatos.value = await axios.get('https://64e6a18609e64530d1801b44.mockapi.io/clients').then((res) => {
-    return res.data;
-  })
+onMounted(async () => {
+  contatos.value = await axios
+    .get("https://64e6a18609e64530d1801b44.mockapi.io/clients")
+    .then((res) => {
+      return res.data;
+    });
 
-  console.log('CLIENTS ==>>', contatos.value )
-})
+  console.log("CLIENTS ==>>", contatos.value);
+  loading.value = false;
+});
 
 function setForm(route) {
-  store.commit("SET_FORM_CONTATO", { visible: true, route: route})
+  store.commit("SET_FORM_CONTATO", { visible: true, route: route });
 }
 </script>
 
 <template>
   <div class="flash-growth-login-container">
     <edit-contato></edit-contato>
+    <contato-detail></contato-detail>
+    <contato-delelete></contato-delelete>
+
     <div class="flash-growth-login-content">
       <p class="login-logo headline1">Contatos</p>
       <div class="main-container" v-bind:class="String">
         <div class="header">
           <input-text
-          :has_information="true"
+            :has_information="true"
             v-model:value="search"
             label="Buscar contato"
             icon="search-outline"
             class="main-container-content"
           ></input-text>
           <boto
-          @click="setForm('adicionar')"
+            @click="setForm('adicionar')"
             icon="add-outline"
             text="Adicionar contato"
             class="main-container-content"
           ></boto>
         </div>
         <div class="main-content">
-          <!-- <div class="empty-content">
+          <spinner-loading v-if="loading"></spinner-loading>
+          <div v-else-if="contatos.length == 0" class="empty-content">
             <img
             src="https://s3-alpha-sig.figma.com/img/f0a8/b513/a67b5d82f446c92f622666d8fbc16eec?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DvmFa1PYgNBD8Moxe58JhhdpUuKgQFVAn04wgS8JzBzpRRstIo-uuinwpDSCSXXKIRWSuwd-1MbHenYgIWcA~49q0Z7EtSqkFryb6NbcgJd-v618-5urCBGV4F~Ur9Q~Sdb11tGcTB3iyQjFKhipqdr5E6MUrKhwARpFXmSdBGl~Cs46D86MrP8GS1EkftD~LL1dLwi6F4IkicSh0UqbOTflCT20KjqYqTGEyOZlmjKxt1s8DzQm~ErRTieYuiqg4h1lb3I9R52LcBCFSyps1zTW-1ZARlf5lx4d4jnJPbob6mfReyoQ~Ha3lXdJML4S3sT90i7OaqFXTCXIn-HnEw__"
             alt=""
@@ -59,10 +70,14 @@ function setForm(route) {
             text="Adicionar contato"
             class="main-content-boto"
           ></boto>
-          </div> -->
-            <div class="contatos-table">
-              <card-contato v-for="item in contatos" :contato="item" :key="item.id"></card-contato>
-            </div>
+          </div>
+          <div v-else class="contatos-table">
+            <card-contato
+              v-for="item in contatos"
+              :contato="item"
+              :key="item.id"
+            ></card-contato>
+          </div>
         </div>
       </div>
     </div>
@@ -138,7 +153,7 @@ function setForm(route) {
   width: 100%;
   gap: 20px;
 }
-.empty-content{
+.empty-content {
   display: flex;
   flex-direction: column;
   align-items: center;
