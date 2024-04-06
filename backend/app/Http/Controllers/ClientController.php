@@ -11,9 +11,9 @@ class ClientController extends Controller
         $this->client = new Client();
     }
 
-    public function index($user_id)
+    public function index()
     {
-        return $cliente = Client::where('user_id', $user_id)->get();
+        return $clients =$this->client->all();
     }
 
     public function store(Request $request)
@@ -23,8 +23,7 @@ class ClientController extends Controller
             'client_email' => $request->input('client_email'),
             'client_phone' => $request->input('client_phone'),
             'client_address' => $request->input('client_address'),
-            'client_image' => $request->input('client_image'),
-            'user_id' => $request->input('user_id')
+            'client_image' => $request->input('client_image')
         ]);
 
         if($created) {

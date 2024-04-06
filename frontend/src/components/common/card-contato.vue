@@ -33,13 +33,32 @@ function setDetailsContato() {
       contato: props.contato
     })
 }
+
+function checkImage(image) {
+  let ok = (image == null || image.toLowerCase().includes('blob')) ? false : true;
+  return ok;
+}
+
+function getInitials(displayName) {
+  const names = displayName.split(" ");
+  if (names.length >= 2) {
+    return names[0][0].toUpperCase() + names[1][0].toUpperCase();
+  } else if (names.length === 1) {
+    return names[0][0].toUpperCase();
+  } else {
+    return "";
+  }
+}
 </script>
 
 <template>
   <div class="card-contato-card-contato">
     <div @click="setDetailsContato"  class="contato-information">
       <div class="user-information">
-        <img :src="contato.client_image" class="profile-foto" alt="">
+        <img v-if="checkImage(contato.client_image)" :src="contato.client_image" class="profile-foto" alt="">
+        <div v-else class="profile-name">
+          <p class="subtitle1">{{ getInitials(contato.client_name) }}</p>
+        </div>
         <div class="card-contato-information">
           <p class="subtitle2">{{ contato.client_name }}</p>
         </div>
@@ -89,14 +108,26 @@ function setDetailsContato() {
 .profile-foto {
   width: 45px;
   height: 45px;
-  background-color: var(--theme-color-main);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
   font-weight: bold;
-  color: white;
+}
+.profile-name {
+  width: 45px;
+  height: 45px;
+  background-color: var(--color-theme-background-user);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.profile-name p {
+  color: var(--color-theme-main-darker);
 }
 .card-contato-information {
   gap: 5px;
@@ -106,11 +137,6 @@ function setDetailsContato() {
   padding-left: 0px;
   flex-direction: column;
   justify-content: center;
-}
-.card-contato-labelchamado {
-  color: #737373;
-  font-size: 12px;
-  font-family: "Fivo Sans regular";
 }
 .card-contato-information {
   gap: 5px;
@@ -147,45 +173,16 @@ function setDetailsContato() {
 .card-contato-text2 {
   padding-left: 0px;
 }
-.card-contato-status {
-  width: 15%;
-  display: flex;
-  align-items: flex-start;
-  border-radius: 10px;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.card-contato-label1 {
-  color: #737373;
-  font-size: 12px;
-  text-align: left;
-  font-family: "Fivo Sans regular";
-}
-.card-contato-statusset {
-  flex: 0 0 auto;
-  width: fit-content;
-  height: 25px;
-  display: flex;
-  min-width: 100px;
-  align-items: center;
-  border-radius: 25px;
-  background-color: 0DC5FF;
-}
 .card-contato-text3 {
   padding-left: 10px;
   padding-right: 10px;
 }
-@media (max-width: 1440px) {
-  .card-contato-text1 {
-    padding-left: 0px;
+@media(max-width: 695px) {
+  .contato-information {
+    width: 70%;
   }
-  .card-contato-status {
-    align-items: flex-start;
-  }
-}
-@media (max-width: 767px) {
-  .card-contato-status {
-    width: auto;
+  .card-contato-actions {
+    width: 10%;
   }
 }
 @media (max-width: 479px) {
@@ -195,16 +192,16 @@ function setDetailsContato() {
     align-items: flex-start;
     flex-direction: column;
   }
-  .card-contato-statusset {
-    height: auto;
+  .contato-information {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .card-contato-actions {
+    align-self: flex-end;
   }
 }
+
 @media (max-width: 320px) {
-  .card-contato-card-contato {
-    gap: 10px;
-    align-items: flex-start;
-    flex-direction: column;
-  }
   .card-contato-information {
     width: 100%;
     padding: unset;

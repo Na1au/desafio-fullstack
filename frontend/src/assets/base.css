@@ -42,6 +42,7 @@
   --color-theme-main-darker:#180D6E;
   --color-theme-main-normal:#5946e4;
   --color-theme-main-ligth:#7e6fea;
+  --color-theme-background-user: #d4d6f9;
   --color-theme-main-20:#00a76f20;
   --color-theme-main-10:#00a76f10;
   --color-theme-black: #1c1c1c;
@@ -122,6 +123,11 @@ word-spacing: 0px;
 .subtitle2 {
   font-size: 14px;
   font-weight: 400;
+  word-spacing: 0.15px;
+}
+.subtitle1 {
+  font-size: 16px;
+  font-weight: 700;
   word-spacing: 0.15px;
 }
 .caption {

@@ -5,6 +5,7 @@ import ClientController from "@/controllers/ClientController";
 const cController = new ClientController();
 const store = createStore({
   state: {
+    clients: [],
     loading: false,
     formContato: {
       visible: false,
@@ -30,7 +31,6 @@ const store = createStore({
       state.loading = payload;
     },
     SET_FORM_CONTATO(state, payload) {
-      console.log("ENTROU AQUI");
       state.formContato = payload;
     },
     SET_SELECTED_CONTATO(state, payload) {
@@ -41,11 +41,31 @@ const store = createStore({
     },
     SET_DELETE_CONTATO(state, payload) {
       state.deleteContato = payload;
+    },
+    SET_CLIENTES(state, payload) {
+      state.clients = payload;
     }
   },
   actions: {
-    deleteContato({payload}) {
+    deleteContato({}, payload) {
+      cController.deleteClient(payload)
+    },
+    async getClients({commit}) {
+      let contatos = await cController.getClients().then((res) => {
+        return res
+      })
+      commit('SET_CLIENTES', contatos)
+    },
+    async editContato({commit, dispatch, state}, payload) {
+      if(payload.id) {
+        cController.editClient(payload)
+      } else {
+        await cController.createClient(payload);
+      }
 
+      setTimeout(() => {
+        dispatch('getClients')
+      }, 1500)
     }
   },
   modules: {

@@ -1,4 +1,3 @@
-import { auth } from "@/firebase/index.js";
 import BaseController from "./BaseController";
 
 export default class ClientController extends BaseController {
@@ -6,19 +5,23 @@ export default class ClientController extends BaseController {
     super();
   }
 
-  async createClient(user) {
-    await super.create("clients", user);
+  async createClient(client) {
+    await super.create("clients", client);
   }
 
-  async getClientById(id) {
-    return await super.getById("clients", id).then((res) => {
+  async getClients() {
+    return await super.getAll("clients").then((res) => {
       return res
     }).catch((err) => {
       console.log(err)
     })
   }
 
-  editClient(user, uid) {
-    super.update("clients", uid, user);
+  editClient(client) {
+    super.update("clients", client.id, client);
+  }
+
+  deleteClient(client) {
+    super.delete("clients", client)
   }
 }

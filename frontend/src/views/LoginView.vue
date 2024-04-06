@@ -95,7 +95,7 @@ const change = () => {
 @media (max-width: 479px) {
   .flash-growth-login-content {
     width: 100%;
-    padding: 40px;
+    padding: 20px;
   }
 }
 

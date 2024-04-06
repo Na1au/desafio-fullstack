@@ -12,7 +12,9 @@ const db = new bdController();
 const userStore = {
   namespaced: true,
   state: () => ({
-    currentUser: null,
+    currentUser: {
+      id: 1
+    },
   }),
   mutations: {
     SET_CURRENT_USER(state, payload) {

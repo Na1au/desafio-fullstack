@@ -8,13 +8,19 @@ const store = useStore();
 const isVisible = computed(() => {
   return store.state.deleteContato;
 });
+const currentUser = computed(() => {
+  return store.state.userModule.currentUser;
+})
 
 function cancelar() {
   store.commit("SET_DELETE_CONTATO", { visible: false, contato: {} });
 }
 
-function confirmar() {
-  store.dispatch('deleteContato', isVisible.value.contato)
+async function confirmar() {
+  store.dispatch('deleteContato', isVisible.value.contato.id)
+
+  await store.dispatch('getClients', currentUser.value.id)
+  cancelar();
 }
 </script>
 

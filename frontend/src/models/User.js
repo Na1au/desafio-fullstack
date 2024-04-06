@@ -1,8 +1,7 @@
 export default class User {
-  constructor({ user_name, user_email, uid } = {}) {
+  constructor({ user_name, user_email } = {}) {
     this.user_name = user_name ?? "";
     this.user_email = user_email ?? "";
-    this.uid = uid ?? "";
   }
 
   static toUser(data) {

@@ -20,8 +20,8 @@ export default class bdController extends BaseController {
     })
   }
 
-  editUser(name, uid) {
-    super.update("users", uid, { name: name });
+  editUser(name, id) {
+    super.update("users", id, { name: name });
   }
   getCurrentUser() {
     return new Promise((resolve, reject) => {

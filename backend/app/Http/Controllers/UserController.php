@@ -11,9 +11,9 @@ class UserController extends Controller
         $this->user = new User();
     }
 
-    public function index($uid)
+    public function index()
     {
-        return $users = $this->user->where('uid', $uid);
+        return $users = $this->user->all();
     }
 
     public function create()
@@ -26,8 +26,7 @@ class UserController extends Controller
         //User::create($request->all());
         $created = $this->user->create([
             'user_name' => $request->input('user_name'),
-            'user_email' => $request->input('user_email'),
-            'uid' => $request->input('uid'),
+            'user_email' => $request->input('user_email')
         ]);
 
         if($created) {
@@ -37,9 +36,9 @@ class UserController extends Controller
         return redirect()->back()->with('message', 'Error on create user.');
     }
 
-    public function show(string $uid)
+    public function show()
     {
-        $this->client->where('id', $id)->update($request->all());
+      //  $this->client->where('id', $id)->update($request->all());
     }
 
     public function edit(User $user)

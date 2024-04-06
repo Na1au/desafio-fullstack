@@ -18,10 +18,8 @@ return new class extends Migration
             $table->string('client_name');
             $table->string('client_phone');
             $table->string('client_address');
-            $table->string('client_image');
+            $table->string('client_image')->nullable();
             $table->string('client_email', 191)->unique();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

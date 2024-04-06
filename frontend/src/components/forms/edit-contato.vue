@@ -16,11 +16,11 @@ const contato = computed(() => {
 
 const invalid_input = ref(false);
 const no_information = ref({
-    client_name: "",
-    client_email: "",
-    client_address: "",
-    client_phone: "",
-  }) 
+  client_name: "",
+  client_email: "",
+  client_address: "",
+  client_phone: "",
+});
 function salvar() {
   if (
     contato.value.client_name != "" &&
@@ -28,13 +28,15 @@ function salvar() {
     contato.value.client_address != "" &&
     contato.value.client_phone != ""
   ) {
-    store.dispatch("editContato", {
-      id: contato.value.id,
-      contato: contato.value,
-    });
+    invalid_input.value = false;
+    store.dispatch("editContato", contato.value);
   } else {
     invalid_input.value = true;
     no_information.value = contato.value;
+  }
+  
+  if (!invalid_input.value) {
+    cancelar();
   }
 }
 
@@ -47,6 +49,13 @@ function cancelar() {
     client_phone: "",
   });
 }
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    contato.value.client_image = URL.createObjectURL(file);
+  }
+};
 </script>
 
 <template>
@@ -64,7 +73,9 @@ function cancelar() {
         <div class="section">
           <p class="caption">Nome</p>
           <input-text
-          :has_information="invalid_input && no_information.client_name == '' ? false : true" 
+            :has_information="
+              invalid_input && no_information.client_name == '' ? false : true
+            "
             v-model:value="contato.client_name"
             label="Nome completo"
           ></input-text>
@@ -72,7 +83,9 @@ function cancelar() {
         <div class="section">
           <p class="caption">Email</p>
           <input-text
-          :has_information="invalid_input && no_information.client_email == '' ? false : true" 
+            :has_information="
+              invalid_input && no_information.client_email == '' ? false : true
+            "
             v-model:value="contato.client_email"
             label="Email"
           ></input-text>
@@ -80,7 +93,9 @@ function cancelar() {
         <div class="section">
           <p class="caption">Telefone</p>
           <input-text
-          :has_information="invalid_input && no_information.client_phone == '' ? false : true" 
+            :has_information="
+              invalid_input && no_information.client_phone == '' ? false : true
+            "
             v-model:value="contato.client_phone"
             label="Telefone"
           ></input-text>
@@ -88,10 +103,24 @@ function cancelar() {
         <div class="section">
           <p class="caption">Endereço</p>
           <input-text
-          :has_information="invalid_input && no_information.client_address == '' ? false : true" 
+            :has_information="
+              invalid_input && no_information.client_address == ''
+                ? false
+                : true
+            "
             v-model:value="contato.client_address"
             label="Endereço"
           ></input-text>
+        </div>
+        <div class="section">
+          <p class="caption">Imagem</p>
+          <input
+            @change="handleFileChange"
+            type="file"
+            id="imagem"
+            name="imagem"
+            accept="image/*"
+          />
         </div>
         <div class="edit-contato-boto">
           <boto2 @click="cancelar" text="Cancelar" class="salvar-boto"></boto2>

@@ -17,7 +17,7 @@ Route::put('/users/{user}', [UserController::class, 'update'])->name('users.upda
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
 Route::get('/', [BaseController::class, 'index'])->name('home');
-Route::get('/clients/{user_id}', [ClientController::class, 'index'])->name('clients.index');
+Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
 Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
 Route::post('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
