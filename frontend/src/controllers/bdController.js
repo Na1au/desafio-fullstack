@@ -1,6 +1,5 @@
 import { auth } from "@/firebase/index.js";
 import BaseController from "./BaseController";
-import axios from "axios";
 import { sendPasswordResetEmail, confirmPasswordReset } from "firebase/auth";
 
 export default class bdController extends BaseController {

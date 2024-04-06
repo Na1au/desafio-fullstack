@@ -10,7 +10,9 @@ export default class ClientController extends BaseController {
   }
 
   async getClients() {
-    return await super.getAll("clients").then((res) => {
+    return await super.getAll("clients", { headers: {
+      "Access-Control-Allow-Origin": "*"
+    }}).then((res) => {
       return res
     }).catch((err) => {
       console.log(err)

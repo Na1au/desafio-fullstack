@@ -18,6 +18,17 @@ const contatos = computed(() => {
   return store.state.clients;
 });
 
+const finalContatos = computed(() => {
+  var final = [];
+  if(search.value == '') {
+    final = contatos.value;
+  } else {
+    final = contatos.value.filter((contato) => {
+      return contato.client_name.toLowerCase().includes(search.value.toLowerCase());
+    });
+  }
+  return final;
+})
 const currentUser = computed(() => {
   return store.state.userModule.currentUser;
 });
@@ -59,7 +70,7 @@ function setForm(route) {
         </div>
         <div class="main-content">
           <spinner-loading v-if="loading"></spinner-loading>
-          <div v-else-if="contatos.length == 0" class="empty-content">
+          <div v-else-if="finalContatos.length == 0" class="empty-content">
             <img
               src="https://s3-alpha-sig.figma.com/img/f0a8/b513/a67b5d82f446c92f622666d8fbc16eec?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DvmFa1PYgNBD8Moxe58JhhdpUuKgQFVAn04wgS8JzBzpRRstIo-uuinwpDSCSXXKIRWSuwd-1MbHenYgIWcA~49q0Z7EtSqkFryb6NbcgJd-v618-5urCBGV4F~Ur9Q~Sdb11tGcTB3iyQjFKhipqdr5E6MUrKhwARpFXmSdBGl~Cs46D86MrP8GS1EkftD~LL1dLwi6F4IkicSh0UqbOTflCT20KjqYqTGEyOZlmjKxt1s8DzQm~ErRTieYuiqg4h1lb3I9R52LcBCFSyps1zTW-1ZARlf5lx4d4jnJPbob6mfReyoQ~Ha3lXdJML4S3sT90i7OaqFXTCXIn-HnEw__"
               alt=""
@@ -74,7 +85,7 @@ function setForm(route) {
           </div>
           <div v-else class="contatos-table">
             <card-contato
-              v-for="item in contatos"
+              v-for="item in finalContatos"
               :contato="item"
               :key="item.id"
             ></card-contato>
